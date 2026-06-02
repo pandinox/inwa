@@ -1,4 +1,4 @@
-const CACHE_NAME = "remanent-pwa-key-in-app-v1";
+const CACHE_NAME = "remanent-pwa-2col-sheet-v1";
 
 const FILES = [
   "./",

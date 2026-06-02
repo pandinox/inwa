@@ -19,7 +19,7 @@
     <header class="topbar">
       <div>
         <h1>Remanent</h1>
-        <p id="subtitle">Pozycje z arkusza: Produkt + Karton + Opakowania/Sztuki + Kilogramy/Sztuki.</p>
+        <p id="subtitle">Układ dwukolumnowy jak arkusz kalkulacyjny.</p>
       </div>
       <div class="status" id="status">Gotowe</div>
     </header>
@@ -66,16 +66,30 @@
         <div class="docCounter" id="docCounter">0 pozycji</div>
       </div>
 
-      <div class="legend">
-        <div>Produkt</div>
-        <div>Karton</div>
-        <div>Opak./Szt.</div>
-        <div>Kg/Szt.</div>
-      </div>
+      <div class="sheetColumns">
+        <table class="sheetTable">
+          <thead>
+            <tr>
+              <th>Produkt</th>
+              <th>Karton</th>
+              <th>Opak./Szt.</th>
+              <th>Kg/Szt.</th>
+            </tr>
+          </thead>
+          <tbody id="leftBody"></tbody>
+        </table>
 
-      <div class="columns">
-        <div class="column" id="leftColumn"></div>
-        <div class="column" id="rightColumn"></div>
+        <table class="sheetTable">
+          <thead>
+            <tr>
+              <th>Produkt</th>
+              <th>Karton</th>
+              <th>Opak./Szt.</th>
+              <th>Kg/Szt.</th>
+            </tr>
+          </thead>
+          <tbody id="rightBody"></tbody>
+        </table>
       </div>
     </section>
   </main>

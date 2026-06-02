@@ -9,8 +9,8 @@ const state = {
 
 const els = {
   status: document.getElementById("status"),
-  leftColumn: document.getElementById("leftColumn"),
-  rightColumn: document.getElementById("rightColumn"),
+  leftBody: document.getElementById("leftBody"),
+  rightBody: document.getElementById("rightBody"),
   docMeta: document.getElementById("docMeta"),
   docCounter: document.getElementById("docCounter"),
   apiKeyInput: document.getElementById("apiKeyInput"),
@@ -68,19 +68,19 @@ function updateMeta() {
   els.docMeta.textContent = `Data: ${date} | Osoba: ${person} | Miejsce: ${place}`;
 }
 
-function makeQtyBox(itemIndex, fieldName, unitText) {
-  const box = document.createElement("div");
-  box.className = "qtyBox";
+function makeQtyCell(itemIndex, fieldName, unitText) {
+  const td = document.createElement("td");
+  td.className = "qtyCell";
 
   const unit = document.createElement("div");
   unit.className = "unit";
-  unit.textContent = unitText || "—";
+  unit.textContent = unitText || "";
 
   const input = document.createElement("input");
   input.type = "text";
   input.inputMode = "decimal";
   input.autocomplete = "off";
-  input.placeholder = "0";
+  input.placeholder = "";
 
   const key = `${STORAGE.qtyPrefix}${itemIndex}_${fieldName}`;
   input.value = localStorage.getItem(key) || "";
@@ -89,54 +89,56 @@ function makeQtyBox(itemIndex, fieldName, unitText) {
     localStorage.setItem(key, input.value);
   });
 
-  box.appendChild(unit);
-  box.appendChild(input);
+  td.appendChild(unit);
+  td.appendChild(input);
 
-  return box;
+  return td;
 }
 
-function createItemElement(item, index) {
-  const row = document.createElement("div");
-  row.className = "item";
+function createItemRow(item, index) {
+  const tr = document.createElement("tr");
 
-  const name = document.createElement("div");
-  name.className = "itemName";
-  name.textContent = item.product;
+  const product = document.createElement("td");
+  product.className = "productCell";
+  product.textContent = item.product;
+  product.title = item.product;
 
-  row.appendChild(name);
-  row.appendChild(makeQtyBox(index, "carton", item.cartonUnit));
-  row.appendChild(makeQtyBox(index, "package", item.packageUnit));
-  row.appendChild(makeQtyBox(index, "weight", item.weightUnit));
+  tr.appendChild(product);
+  tr.appendChild(makeQtyCell(index, "carton", item.cartonUnit));
+  tr.appendChild(makeQtyCell(index, "package", item.packageUnit));
+  tr.appendChild(makeQtyCell(index, "weight", item.weightUnit));
 
-  return row;
+  return tr;
 }
 
 function renderItems() {
-  els.leftColumn.innerHTML = "";
-  els.rightColumn.innerHTML = "";
+  els.leftBody.innerHTML = "";
+  els.rightBody.innerHTML = "";
 
   const count = state.items.length;
   els.docCounter.textContent = `${count} ${count === 1 ? "pozycja" : "pozycji"}`;
 
   if (!count) {
-    const empty = document.createElement("div");
-    empty.className = "emptyState";
-    empty.textContent = "Brak pozycji. Wpisz klucz i kliknij „Pobierz pozycje”.";
-    els.leftColumn.appendChild(empty);
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.colSpan = 4;
+    td.className = "emptyState";
+    td.textContent = "Brak pozycji. Wpisz klucz i kliknij „Pobierz pozycje”.";
+    tr.appendChild(td);
+    els.leftBody.appendChild(tr);
     return;
   }
 
+  // 2 kolumny: parzyście 50/50, nieparzyście np. 51 -> 26/25.
   const leftCount = Math.ceil(count / 2);
-  const leftItems = state.items.slice(0, leftCount);
-  const rightItems = state.items.slice(leftCount);
 
-  leftItems.forEach((item, index) => {
-    els.leftColumn.appendChild(createItemElement(item, index));
+  state.items.slice(0, leftCount).forEach((item, index) => {
+    els.leftBody.appendChild(createItemRow(item, index));
   });
 
-  rightItems.forEach((item, offset) => {
+  state.items.slice(leftCount).forEach((item, offset) => {
     const index = leftCount + offset;
-    els.rightColumn.appendChild(createItemElement(item, index));
+    els.rightBody.appendChild(createItemRow(item, index));
   });
 
   updateMeta();
@@ -194,7 +196,7 @@ function clearQuantities() {
     .filter(key => key.startsWith(STORAGE.qtyPrefix))
     .forEach(key => localStorage.removeItem(key));
 
-  document.querySelectorAll(".item input").forEach(input => {
+  document.querySelectorAll(".qtyCell input").forEach(input => {
     input.value = "";
   });
 }
@@ -210,7 +212,7 @@ async function exportPNG() {
   setStatus("Tworzę PNG...");
 
   const canvas = await html2canvas(els.document, {
-    scale: 2,
+    scale: 3,
     backgroundColor: "#ffffff"
   });
 

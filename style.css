@@ -3,10 +3,11 @@
   --card: #ffffff;
   --text: #111827;
   --muted: #6b7280;
-  --line: #d1d5db;
+  --line: #b8bec8;
+  --line-strong: #6b7280;
   --accent: #111827;
   --danger: #991b1b;
-  --radius: 18px;
+  --radius: 14px;
 }
 
 * { box-sizing: border-box; }
@@ -20,31 +21,30 @@ html, body {
 }
 
 .app {
-  width: min(1400px, 100%);
+  width: min(1500px, 100%);
   margin: 0 auto;
-  padding: 18px;
+  padding: 14px;
 }
 
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 14px;
+  margin-bottom: 12px;
 }
 
 h1, h2, p { margin: 0; }
-
-h1 { font-size: 34px; line-height: 1.1; }
-h2 { font-size: 24px; }
+h1 { font-size: 32px; line-height: 1.1; }
+h2 { font-size: 20px; }
 
 #subtitle {
-  margin-top: 6px;
+  margin-top: 5px;
   color: var(--muted);
 }
 
 .status {
-  padding: 10px 14px;
+  padding: 8px 12px;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -54,51 +54,51 @@ h2 { font-size: 24px; }
 
 .panel {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 180px;
-  gap: 12px;
-  padding: 14px;
+  grid-template-columns: 1.3fr 1fr 1fr 170px;
+  gap: 10px;
+  padding: 12px;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .field label {
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--muted);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 input {
   width: 100%;
-  min-height: 46px;
+  min-height: 42px;
   border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 8px 12px;
-  font-size: 18px;
+  border-radius: 8px;
+  padding: 6px 9px;
+  font-size: 16px;
   background: #fff;
 }
 
 .keyRow {
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: 8px;
+  gap: 6px;
 }
 
 .buttons {
   grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
 button {
-  min-height: 46px;
-  padding: 10px 16px;
+  min-height: 42px;
+  padding: 8px 14px;
   border: 0;
-  border-radius: 12px;
-  font-size: 17px;
+  border-radius: 10px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -112,125 +112,164 @@ button.danger { background: #fee2e2; color: var(--danger); }
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 16px;
+  padding: 10px;
 }
 
 .docHeader {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 14px;
-  border-bottom: 2px solid var(--text);
-  margin-bottom: 10px;
+  gap: 10px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--line-strong);
+  margin-bottom: 8px;
 }
 
 #docMeta {
-  margin-top: 6px;
+  margin-top: 4px;
   color: var(--muted);
+  font-size: 12px;
 }
 
 .docCounter {
   font-weight: 700;
   white-space: nowrap;
+  font-size: 12px;
 }
 
-.legend {
-  display: grid;
-  grid-template-columns: 1fr 96px 96px 96px;
-  gap: 8px;
-  padding: 0 8px 8px 8px;
-  color: var(--muted);
-  font-weight: 800;
-  font-size: 13px;
-}
-
-.columns {
+.sheetColumns {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 8px;
   align-items: start;
 }
 
-.column {
-  display: grid;
-  gap: 8px;
+.sheetTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: white;
+  border: 1px solid var(--line-strong);
 }
 
-.item {
-  display: grid;
-  grid-template-columns: 1fr 96px 96px 96px;
-  gap: 8px;
-  align-items: center;
+.sheetTable th,
+.sheetTable td {
   border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 8px;
-  min-height: 66px;
+  padding: 0;
+  vertical-align: middle;
 }
 
-.itemName {
-  font-size: 17px;
+.sheetTable th {
+  height: 22px;
+  background: #f3f4f6;
+  font-size: 10px;
   font-weight: 800;
-  line-height: 1.15;
+  text-align: center;
 }
 
-.qtyBox {
-  display: grid;
-  gap: 4px;
+.sheetTable th:first-child {
+  text-align: left;
+  padding-left: 5px;
 }
 
-.unit {
-  color: var(--muted);
-  font-weight: 800;
+.productCell {
+  width: auto;
+  padding: 2px 4px !important;
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.05;
+  height: 26px;
+  overflow: hidden;
+}
+
+.qtyCell {
+  width: 48px;
+  height: 26px;
+  position: relative;
+}
+
+.qtyCell .unit {
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  right: 2px;
+  height: 8px;
+  font-size: 6.5px;
+  line-height: 1;
+  color: #555;
+  text-align: center;
+  pointer-events: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.qtyCell input {
+  width: 100%;
+  height: 26px;
+  min-height: 26px;
+  border: 0;
+  border-radius: 0;
+  padding: 8px 1px 1px 1px;
   font-size: 12px;
-  text-align: center;
-  min-height: 14px;
-}
-
-.qtyBox input {
-  min-height: 38px;
-  font-size: 20px;
-  text-align: center;
   font-weight: 900;
-  padding: 4px;
+  text-align: center;
+  background: transparent;
 }
 
 .emptyState {
-  grid-column: 1 / -1;
-  padding: 28px;
+  padding: 20px;
   text-align: center;
   color: var(--muted);
-  border: 2px dashed var(--line);
-  border-radius: 16px;
+  border: 1px dashed var(--line);
 }
 
 @media (max-width: 1100px) {
   .panel { grid-template-columns: 1fr; }
+  .keyRow { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 980px) {
-  .columns { grid-template-columns: 1fr; }
-  .legend { display: none; }
-
-  .item {
-    grid-template-columns: 1fr 82px 82px 82px;
+@media (max-width: 760px) {
+  .sheetColumns {
+    grid-template-columns: 1fr;
   }
 
-  .keyRow {
-    grid-template-columns: 1fr;
+  .productCell {
+    font-size: 13px;
+    height: 34px;
+  }
+
+  .qtyCell,
+  .qtyCell input {
+    width: 62px;
+    height: 34px;
+    min-height: 34px;
+  }
+
+  .qtyCell input {
+    font-size: 16px;
+    padding-top: 10px;
+  }
+
+  .qtyCell .unit {
+    font-size: 8px;
   }
 }
 
 @media print {
   @page {
     size: A4 portrait;
-    margin: 7mm;
+    margin: 4mm;
   }
 
-  body { background: white; }
+  html, body {
+    width: 210mm;
+    min-height: 297mm;
+    background: white;
+  }
 
   .app {
     width: 100%;
     padding: 0;
+    margin: 0;
   }
 
   .no-print, .topbar {
@@ -244,47 +283,75 @@ button.danger { background: #fee2e2; color: var(--danger); }
   }
 
   .docHeader {
-    padding-bottom: 6px;
-    margin-bottom: 6px;
+    padding-bottom: 2mm;
+    margin-bottom: 2mm;
+    border-bottom: 0.25mm solid #111;
   }
 
-  .legend {
-    grid-template-columns: 1fr 45px 45px 45px;
-    gap: 3px;
-    padding: 0 4px 4px 4px;
-    font-size: 8px;
-  }
-
-  .columns {
-    grid-template-columns: 1fr 1fr;
-    gap: 5mm;
-  }
-
-  .column {
-    gap: 3px;
-  }
-
-  .item {
-    break-inside: avoid;
-    page-break-inside: avoid;
-    min-height: 30px;
-    padding: 3px;
-    border-radius: 4px;
-    grid-template-columns: 1fr 45px 45px 45px;
-    gap: 3px;
-  }
-
-  .itemName { font-size: 8.5px; }
-  .unit { font-size: 7px; min-height: 8px; }
-
-  .qtyBox input {
-    border: 1px solid #777;
-    min-height: 17px;
+  h2 {
     font-size: 9px;
-    padding: 0 2px;
-    border-radius: 3px;
+    line-height: 1;
   }
 
-  h2 { font-size: 15px; }
-  #docMeta, .docCounter { font-size: 9px; }
+  #docMeta,
+  .docCounter {
+    font-size: 6.2px;
+    line-height: 1;
+  }
+
+  .sheetColumns {
+    grid-template-columns: 1fr 1fr;
+    gap: 2mm;
+  }
+
+  .sheetTable {
+    border: 0.2mm solid #555;
+  }
+
+  .sheetTable th,
+  .sheetTable td {
+    border: 0.18mm solid #777;
+  }
+
+  .sheetTable th {
+    height: 3.6mm;
+    font-size: 4.8px;
+    background: #eee;
+  }
+
+  .sheetTable th:first-child {
+    padding-left: 1mm;
+  }
+
+  .productCell {
+    height: 4.35mm;
+    max-height: 4.35mm;
+    padding: 0.35mm 0.6mm !important;
+    font-size: 4.85px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .qtyCell {
+    width: 9.5mm;
+    height: 4.35mm;
+  }
+
+  .qtyCell .unit {
+    top: 0.15mm;
+    left: 0.2mm;
+    right: 0.2mm;
+    height: 1.3mm;
+    font-size: 3.2px;
+    line-height: 1;
+    color: #333;
+  }
+
+  .qtyCell input {
+    height: 4.35mm;
+    min-height: 4.35mm;
+    padding: 1.2mm 0 0 0;
+    font-size: 5.2px;
+    line-height: 1;
+  }
 }
