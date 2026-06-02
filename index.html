@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1">
+  <title>Remanent</title>
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#111111">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Remanent">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <h1>Remanent</h1>
+        <p id="subtitle">Pozycje z arkusza: Produkt + Karton + Opakowania/Sztuki + Kilogramy/Sztuki.</p>
+      </div>
+      <div class="status" id="status">Gotowe</div>
+    </header>
+
+    <section class="panel no-print">
+      <div class="field">
+        <label for="personName">Osoba licząca</label>
+        <input id="personName" type="text" placeholder="np. Jan">
+      </div>
+
+      <div class="field">
+        <label for="placeName">Miejsce / magazyn</label>
+        <input id="placeName" type="text" placeholder="np. Magazyn główny">
+      </div>
+
+      <div class="field">
+        <label for="documentDate">Data</label>
+        <input id="documentDate" type="date">
+      </div>
+
+      <div class="buttons">
+        <button id="loadBtn" type="button">Pobierz pozycje</button>
+        <button id="clearBtn" type="button" class="secondary">Wyczyść ilości</button>
+        <button id="pngBtn" type="button" class="secondary">Pobierz PNG</button>
+        <button id="pdfBtn" type="button" class="primary">PDF / Drukuj</button>
+      </div>
+    </section>
+
+    <section id="document" class="document">
+      <div class="docHeader">
+        <div>
+          <h2>Arkusz remanentowy</h2>
+          <p id="docMeta">—</p>
+        </div>
+        <div class="docCounter" id="docCounter">0 pozycji</div>
+      </div>
+
+      <div class="legend">
+        <div>Produkt</div>
+        <div>Karton</div>
+        <div>Opak./Szt.</div>
+        <div>Kg/Szt.</div>
+      </div>
+
+      <div class="columns">
+        <div class="column" id="leftColumn"></div>
+        <div class="column" id="rightColumn"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js");
+    }
+  </script>
+</body>
+</html>
