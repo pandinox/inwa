@@ -1,16 +1,7 @@
 /*
-  TU WPISUJESZ SWOJE DANE.
-
-  API_URL:
-  - URL z Google Apps Script po wdrożeniu jako Web App.
-  - Przykład:
-    https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxxxxxxxxxx/exec
-
-  API_KEY:
-  - dowolny token/hasło, które ustawisz też w Apps Script w Script Properties jako API_KEY.
-  - To NIE jest token Google.
+  Tu zostaje tylko URL do Apps Script.
+  Klucz dostępu wpisujesz dopiero w aplikacji po jej uruchomieniu.
 */
 window.REMANENT_CONFIG = {
-  API_URL: "WKLEJ_TUTAJ_URL_APPS_SCRIPT_WEB_APP",
-  API_KEY: "WKLEJ_TUTAJ_SWÓJ_API_KEY"
+  API_URL: "https://script.google.com/macros/s/AKfycbw23M7R4nlu21_o3HS1Mial2K-dCcaG-HVaVgHWrx4j1MBA_j3Vcbv4pQd61DPlQKhnTw/exec"
 };

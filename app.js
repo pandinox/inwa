@@ -1,3 +1,8 @@
+const STORAGE = {
+  apiKey: "remanent_api_key",
+  qtyPrefix: "remanent_qty_"
+};
+
 const state = {
   items: []
 };
@@ -8,6 +13,9 @@ const els = {
   rightColumn: document.getElementById("rightColumn"),
   docMeta: document.getElementById("docMeta"),
   docCounter: document.getElementById("docCounter"),
+  apiKeyInput: document.getElementById("apiKeyInput"),
+  saveKeyBtn: document.getElementById("saveKeyBtn"),
+  forgetKeyBtn: document.getElementById("forgetKeyBtn"),
   personName: document.getElementById("personName"),
   placeName: document.getElementById("placeName"),
   documentDate: document.getElementById("documentDate"),
@@ -28,6 +36,29 @@ function todayISO() {
 
 function safeText(value) {
   return String(value ?? "").trim();
+}
+
+function getSavedApiKey() {
+  return localStorage.getItem(STORAGE.apiKey) || "";
+}
+
+function saveApiKey() {
+  const key = safeText(els.apiKeyInput.value);
+
+  if (!key) {
+    alert("Wpisz klucz dostępu.");
+    return;
+  }
+
+  localStorage.setItem(STORAGE.apiKey, key);
+  els.apiKeyInput.value = key;
+  setStatus("Klucz zapisany");
+}
+
+function forgetApiKey() {
+  localStorage.removeItem(STORAGE.apiKey);
+  els.apiKeyInput.value = "";
+  setStatus("Klucz usunięty");
 }
 
 function updateMeta() {
@@ -51,7 +82,7 @@ function makeQtyBox(itemIndex, fieldName, unitText) {
   input.autocomplete = "off";
   input.placeholder = "0";
 
-  const key = `remanent_qty_${itemIndex}_${fieldName}`;
+  const key = `${STORAGE.qtyPrefix}${itemIndex}_${fieldName}`;
   input.value = localStorage.getItem(key) || "";
 
   input.addEventListener("input", () => {
@@ -90,12 +121,11 @@ function renderItems() {
   if (!count) {
     const empty = document.createElement("div");
     empty.className = "emptyState";
-    empty.textContent = "Brak pozycji. Kliknij „Pobierz pozycje”.";
+    empty.textContent = "Brak pozycji. Wpisz klucz i kliknij „Pobierz pozycje”.";
     els.leftColumn.appendChild(empty);
     return;
   }
 
-  // Parzyste 50/50, nieparzyste np. 51 -> 26/25.
   const leftCount = Math.ceil(count / 2);
   const leftItems = state.items.slice(0, leftCount);
   const rightItems = state.items.slice(leftCount);
@@ -115,17 +145,19 @@ function renderItems() {
 async function loadItems() {
   const config = window.REMANENT_CONFIG || {};
   const apiUrl = safeText(config.API_URL);
-  const apiKey = safeText(config.API_KEY);
+  const apiKey = safeText(els.apiKeyInput.value) || getSavedApiKey();
 
   if (!apiUrl || apiUrl.includes("WKLEJ_TUTAJ")) {
     alert("Uzupełnij API_URL w pliku config.js");
     return;
   }
 
-  if (!apiKey || apiKey.includes("WKLEJ_TUTAJ")) {
-    alert("Uzupełnij API_KEY w pliku config.js");
+  if (!apiKey) {
+    alert("Wpisz klucz dostępu w aplikacji.");
     return;
   }
+
+  localStorage.setItem(STORAGE.apiKey, apiKey);
 
   setStatus("Pobieram...");
 
@@ -159,7 +191,7 @@ function clearQuantities() {
   if (!confirm("Wyczyścić wpisane ilości?")) return;
 
   Object.keys(localStorage)
-    .filter(key => key.startsWith("remanent_qty_"))
+    .filter(key => key.startsWith(STORAGE.qtyPrefix))
     .forEach(key => localStorage.removeItem(key));
 
   document.querySelectorAll(".item input").forEach(input => {
@@ -201,11 +233,19 @@ function exportPDF() {
   els.documentDate.addEventListener(evt, updateMeta);
 });
 
+els.saveKeyBtn.addEventListener("click", saveApiKey);
+els.forgetKeyBtn.addEventListener("click", forgetApiKey);
 els.loadBtn.addEventListener("click", loadItems);
 els.clearBtn.addEventListener("click", clearQuantities);
 els.pngBtn.addEventListener("click", exportPNG);
 els.pdfBtn.addEventListener("click", exportPDF);
 
 els.documentDate.value = todayISO();
+els.apiKeyInput.value = getSavedApiKey();
+
 updateMeta();
 renderItems();
+
+if (getSavedApiKey()) {
+  setStatus("Klucz wczytany");
+}
